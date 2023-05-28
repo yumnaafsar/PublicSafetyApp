@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "708486068472",
+    "project_id": "publicsafteyapp",
+    "storage_bucket": "publicsafteyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708486068472:android:53c4d129407532ed4ee30d",
+        "android_client_info": {
+          "package_name": "com.example.public_safety_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwPQZJtt66Vw8_kwacXXb-gwJGPiQurQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
