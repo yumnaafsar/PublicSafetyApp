@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
 class customizedAppBar extends StatefulWidget {
-  const customizedAppBar({super.key});
+  const customizedAppBar({
+    super.key});
 
   @override
   State<customizedAppBar> createState() => _customizedAppBarState();
 }
 
 class _customizedAppBarState extends State<customizedAppBar> {
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -91,7 +95,7 @@ class _customizedAppBarState extends State<customizedAppBar> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                     'Yumna',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,

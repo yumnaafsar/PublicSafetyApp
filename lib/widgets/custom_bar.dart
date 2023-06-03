@@ -3,7 +3,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 
 class customBar extends StatefulWidget {
-  const customBar({super.key});
+  final title;
+  const customBar({
+    required this.title,
+    super.key});
 
   @override
   State<customBar> createState() => _customBarState();
@@ -34,7 +37,7 @@ class _customBarState extends State<customBar> {
           Navigator.of(context).pop();
         },
         child: Icon(Icons.arrow_back_rounded, color: Colors.white, size: 30,)),
-      Text('Report Harassement',style: TextStyle(color: Colors.white,fontSize: 25, fontWeight: FontWeight.w600),),
+      Text(widget.title,style: TextStyle(color: Colors.white,fontSize: 25, fontWeight: FontWeight.w600),),
       Icon(Icons.menu, color: Colors.white, size: 30,)
     ],
     )

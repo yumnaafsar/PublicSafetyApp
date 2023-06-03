@@ -31,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
       final DocumentSnapshot snapshot= await db.collection("users").doc(user.user?.uid).get();
 
       final data= snapshot.data();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => personalSaftey()));
-      // Navigator.of(context).pushNamed(personalSaftey(),arguments: data);
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => personalSaftey()));
+      Navigator.of(context).pushNamed('/userInfo',arguments: data);
 
       } catch (e) {
         print("error");

@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
+
+  final TextEditingController controller;
+  TimePicker({
+    required this.controller,
+    super.key});
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -16,7 +20,7 @@ class _TimePickerState extends State<TimePicker> {
 
   @override
   void initState() {
-    timeInput.text = ""; // set the initial value of text field
+    timeInput= widget.controller; // set the initial value of text field
     super.initState();
   }
 
@@ -72,7 +76,7 @@ class _TimePickerState extends State<TimePicker> {
                           ),
                           hintText: 'hh:mm',
                           hintStyle: TextStyle(
-                              color: Color.fromARGB(255, 14, 114, 22),
+                              color: Color.fromARGB(255, 61, 180, 71),
                               fontSize: 20,
                               fontWeight: FontWeight.w500),
                           border: InputBorder.none,

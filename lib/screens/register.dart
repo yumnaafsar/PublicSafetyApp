@@ -33,14 +33,18 @@ void register() async
 
       try {
         final UserCredential user= await auth.createUserWithEmailAndPassword(email: email, password: password);
-        await db.collection("RegisteredUsers").doc(user.user?.uid).set({
+        final QuerySnapshot snapshot = await db.collection("RegisteredUsers").get();
+        final int userCount = snapshot.docs.length;
+
+        final customId = 'User${userCount + 1}';
+        await db.collection("RegisteredUsers").doc(customId).set({
            "email": email,
            "username": username,
            "password": password
         }
         );
         print("user is registered");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.of(context).pushNamed('/login',);
       } catch (e) {
         print("error");
       }
@@ -108,7 +112,20 @@ void register() async
                             ),
                           child: Center(child: Text('Register',style: TextStyle(color: Colors.white, fontSize:25, fontWeight: FontWeight.bold ),)),
                         ),
-              )
+              ),
+               SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Already have an account?", style: TextStyle(color: Colors.white,fontSize: 15, fontWeight: FontWeight.w800),),
+                  SizedBox(width: 20,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                    child: Text('Sign In',style: TextStyle(color: Colors.white,fontSize: 15, fontWeight: FontWeight.w800),)),
+                ],
+              ),
 
 
             ],

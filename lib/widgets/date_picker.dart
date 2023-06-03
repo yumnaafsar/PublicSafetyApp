@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatefulWidget {
-  // final String labelText;
-  // final String errorText;
 
-  // const DatePicker({required this.labelText,
-  //  required this.errorText, super.key});
+  final TextEditingController controller;
 
-  DatePicker({super.key});
+
+  DatePicker({
+    required this.controller,
+    super.key});
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -22,7 +22,7 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   void initState() {
-    dateInput.text = ""; //set the initial value of text field
+    dateInput= widget.controller; //set the initial value of text field
     super.initState();
   }
 
@@ -84,7 +84,7 @@ class _DatePickerState extends State<DatePicker> {
                     ),
                     hintText: 'dd-mm-yyyy',
                     hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 14, 114, 22),
+                        color: Color.fromARGB(255, 61, 180, 71),
                         fontSize: 20,
                         fontWeight: FontWeight.w500),
                     border: InputBorder.none,

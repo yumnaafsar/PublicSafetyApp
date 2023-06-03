@@ -46,7 +46,12 @@ dependencies:
   firebase_auth: ^4.6.1
   cloud_firestore: ^4.7.1
   firebase_storage: ^11.2.1
-  
+  shake: ^2.2.0
+  geolocator: ^9.0.2
+  fluttertoast: ^8.2.2
+  permission_handler: ^10.2.0
+  geocoding: ^2.1.0
+  background_sms: ^0.0.4
 
 dev_dependencies:
   flutter_test:

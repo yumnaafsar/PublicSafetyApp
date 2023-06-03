@@ -13,6 +13,9 @@ class EmergencyContact extends StatefulWidget {
 class _EmergencyContactState extends State<EmergencyContact> {
 
   final _formKey = GlobalKey<FormState>();
+  TextEditingController contact1Controller=TextEditingController();
+  TextEditingController contact2Controller=TextEditingController();
+  TextEditingController contact3Controller=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            customBar(),
+            customBar(title: 'Emergency Contacts',),
             SizedBox(height: 15,),
             Form(
               key: _formKey,
@@ -35,11 +38,11 @@ class _EmergencyContactState extends State<EmergencyContact> {
                       )),
                   ),
                   SizedBox(height: 20,),
-                  textFeild('Contact 1', 'Enter number'),
+                  textFeild('Contact 1', 'Enter number', contact1Controller),
                   SizedBox(height: 5,),
-                  textFeild('Contact 2', 'Enter number'),
+                  textFeild('Contact 2', 'Enter number', contact2Controller),
                   SizedBox(height: 5,),
-                  textFeild('Contact 3', 'Enter number'),
+                  textFeild('Contact 3', 'Enter number', contact3Controller),
                   SizedBox(height: 10,),
       
                   
@@ -53,7 +56,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
   }
 }
 
-Widget textFeild(String _labelText, String _hintText) {
+Widget textFeild(String _labelText, String _hintText, _controller) {
   return Column(
     children: [
       Row(
@@ -87,6 +90,7 @@ Widget textFeild(String _labelText, String _hintText) {
           ],
         ),
         child: TextFormField(
+          controller: _controller,
           decoration: InputDecoration(
             hintText: _hintText,
             hintStyle: TextStyle(
