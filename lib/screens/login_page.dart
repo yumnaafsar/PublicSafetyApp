@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:public_safety_app/screens/personal_safety.dart';
+// import 'package:public_safety_app/screens/personal_safety.dart';
 import 'package:public_safety_app/screens/register.dart';
 
 import '../widgets/custom_bar.dart';
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
       final data= snapshot.data();
       // Navigator.push(context, MaterialPageRoute(builder: (context) => personalSaftey()));
-      Navigator.of(context).pushNamed('/userInfo',arguments: data);
+      Navigator.of(context).pushNamed('/personalSafety',arguments: data);
 
       } catch (e) {
         print("error");

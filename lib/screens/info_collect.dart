@@ -5,6 +5,7 @@ import 'package:public_safety_app/screens/personal_safety.dart';
 import 'package:public_safety_app/widgets/camera.dart';
 
 import '../widgets/custom_bar.dart';
+import '../widgets/date_picker.dart';
 
 class InformationDetail extends StatefulWidget {
   const InformationDetail({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class _InformationDetailState extends State<InformationDetail> {
    final _formKey = GlobalKey<FormState>();
    TextEditingController nameController=TextEditingController();
    TextEditingController emailController=TextEditingController();
+   TextEditingController  cnicController=TextEditingController();
+   TextEditingController dateController=TextEditingController();
    TextEditingController cityController=TextEditingController();
    TextEditingController districtController=TextEditingController();
 
@@ -25,12 +28,16 @@ class _InformationDetailState extends State<InformationDetail> {
       
       final name= nameController.text;
       final email= emailController.text;
+      final cnic= cnicController.text;
+      final date = dateController.text;
       final city=cityController.text;
       final district=districtController.text;
 
       FirebaseFirestore.instance.collection('UserInformation').add({
         "name":name,
         "email":email,
+        "cnic":cnic,
+        "date": date.toString(),
         "city":city,
         "district":district,
         "imageUrl":imageUrl,
@@ -38,6 +45,8 @@ class _InformationDetailState extends State<InformationDetail> {
         print('User Information stored'),
         nameController.clear(),
         emailController.clear(),
+        cnicController.clear(),
+        dateController.clear(),
         cityController.clear(),
         districtController.clear(),
 
@@ -75,6 +84,8 @@ class _InformationDetailState extends State<InformationDetail> {
               children: [
                 textFeild('Name', 'Enter your full name', nameController),
                 textFeild('Email', 'Enter your email', emailController),
+                textFeild('CNIC NO', 'Enter your cnic number', cnicController),
+                // DatePicker(controller: dateController),
                 textFeild('City', 'Enter city where you live' , cityController),
                 textFeild('District', 'Enter your district', districtController),
       

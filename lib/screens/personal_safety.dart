@@ -29,119 +29,156 @@ class personalSaftey extends StatefulWidget {
 }
 
 class _personalSafteyState extends State<personalSaftey> {
-  // Position? _curentPosition;
-  // String? _curentAddress;
+  dynamic data;
+  late User? currentUser;
+  Future<dynamic> getData() async {
+    currentUser = FirebaseAuth.instance.currentUser;
 
-  //   Future<bool> _handleLocationPermission() async {
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
+    if (currentUser != null) {
+      final DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection("EmergencyContacts")
+          .doc(currentUser!.uid)
+          .get();
 
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //         content: Text(
-  //             'Location services are disabled. Please enable the services')));
-  //     return false;
-  //   }
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(content: Text('Location permissions are denied')));
-  //       return false;
-  //     }
-  //   }
-  //   if (permission == LocationPermission.deniedForever) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //         content: Text(
-  //             'Location permissions are permanently denied, we cannot request permissions.')));
-  //     return false;
-  //   }
-  //   return true;
-  // }
+      if (snapshot.exists) {
+        setState(() {
+          data = snapshot.data();
+        });
+      }
+    }
+  }
 
+  Position? _currentPosition;
+  String? _currentAddress;
 
-  // LocationPermission? permission;
-  //  _getPermission() async => await [Permission.sms].request();
-  // _isPermissionGranted() async => await Permission.sms.status.isGranted;
-  // _sendSms(String phoneNumber, String message, {int? simSlot}) async {
-  //   SmsStatus result = await BackgroundSms.sendMessage(
-  //       phoneNumber: phoneNumber, message: message, simSlot: 1);
-  //   if (result == SmsStatus.sent) {
-  //     print("Sent");
-  //     Fluttertoast.showToast(msg: "send");
-  //   } else {
-  //     Fluttertoast.showToast(msg: "failed");
-  //   }
-  // }
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  //   _getCurrentLocation() async {
-  //   final hasPermission = await _handleLocationPermission();
-  //   if (!hasPermission) return;
-  //   await Geolocator.getCurrentPosition(
-  //           desiredAccuracy: LocationAccuracy.high,
-  //           forceAndroidLocationManager: true)
-  //       .then((Position position) {
-  //     setState(() {
-  //       _curentPosition = position;
-  //       print(_curentPosition!.latitude);
-  //       _getAddressFromLatLon();
-  //     });
-  //   }).catchError((e) {
-  //     Fluttertoast.showToast(msg: e.toString());
-  //   });
-  // }
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Location services are disabled. Please enable the services'),
+      ));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are denied')),
+        );
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Location permissions are permanently denied, we cannot request permissions.'),
+      ));
+      return false;
+    }
+    return true;
+  }
 
-  // _getAddressFromLatLon() async {
-  //   try {
-  //     List<Placemark> placemarks = await placemarkFromCoordinates(
-  //         _curentPosition!.latitude, _curentPosition!.longitude);
+  Future<void> _getPermission() async {
+    await Permission.sms.request();
+  }
 
-  //     Placemark place = placemarks[0];
-  //     setState(() {
-  //       _curentAddress =
-  //           "${place.locality},${place.postalCode},${place.street},";
-  //     });
-  //   } catch (e) {
-  //     Fluttertoast.showToast(msg: e.toString());
-  //   }
-  // }
+  Future<bool> _isPermissionGranted() async {
+    return await Permission.sms.status.isGranted;
+  }
 
-  // getAndSendSMS()async{
-    
-  // }  
+  Future<void> _getCurrentLocation() async {
+    if (await _handleLocationPermission()) {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        _currentPosition = position;
+      });
+      await _getAddressFromLatLon();
+    }
+  }
 
+  Future<void> _getAddressFromLatLon() async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(_currentPosition!.latitude,
+              _currentPosition!.longitude);
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
+  Future<void> _sendSms(String phoneNumber, String message,
+      {int? simSlot}) async {
+    if (phoneNumber.isNotEmpty && message.isNotEmpty) {
+      SmsStatus result = await BackgroundSms.sendMessage(
+        phoneNumber: phoneNumber,
+        message: message,
+        simSlot: 1,
+      );
+      if (result == SmsStatus.sent) {
+        print("Sent");
+        Fluttertoast.showToast(msg: "SMS sent");
+      } else {
+        Fluttertoast.showToast(msg: "Failed to send SMS");
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Invalid phone number or message");
+    }
+  }
+
+  Future<void> getAndSendSMS() async {
+    // Get permission to send SMS
+    bool permissionGranted = await _isPermissionGranted();
+    if (!permissionGranted) {
+      await _getPermission();
+      permissionGranted = await _isPermissionGranted();
+      if (!permissionGranted) {
+        Fluttertoast.showToast(msg: "Permission denied for sending SMS");
+        return;
+      }
+    }
+
+    // Get current location
+    await _getCurrentLocation();
+
+    // Check if location is available
+    if (_currentPosition == null || _currentAddress == null) {
+      Fluttertoast.showToast(msg: "Failed to retrieve location");
+      return;
+    }
+
+    // Get emergency contacts
+    getData().then((value) {
+      if (data != null) {
+        String contact1 = data['contact1'];
+        String contact2 = data['contact2'];
+        String contact3 = data['contact3'];
+
+        // Send SMS to emergency contacts
+        String message =
+            "Emergency! I need help! My location is: \n\n$_currentAddress";
+        _sendSms(contact1, message);
+        _sendSms(contact2, message);
+        _sendSms(contact3, message);
+      } else {
+        Fluttertoast.showToast(msg: "Emergency contacts not found");
+      }
+    });
+  }
 
 
 
 
 void initState() {
     super.initState();
-    // _getPermission();
-    // _getCurrentLocation();
-    
-    ShakeDetector detector = ShakeDetector.autoStart(
-      onPhoneShake: () {
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Shake!'),
-          ),
-        );
-
-
-         final player= AudioPlayer();
-         player.play(AssetSource('audio/alarm.wav'));
-      },
-      minimumShakeCount: 1,
-      shakeSlopTimeMS: 500,
-      shakeCountResetTime: 3000,
-      shakeThresholdGravity: 2.7,
-    );
-
-    detector.startListening();
   } 
 
   

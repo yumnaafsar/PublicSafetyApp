@@ -1,14 +1,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     
+<uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <queries>
+        <intent >
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto"/>
 
+        </intent>
+    </queries>
+    
     <application
         android:enableOnBackInvokedCallback="true"
         android:label="public_safety_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -36,4 +50,28 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+     <queries>
+      <!-- If your app opens https URLs -->
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" />
+      </intent>
+      <!-- If your app makes calls -->
+      <intent>
+        <action android:name="android.intent.action.DIAL" />
+        <data android:scheme="tel" />
+      </intent>
+      <!-- If your sends SMS messages -->
+      <intent>
+        <action android:name="android.intent.action.SENDTO" />
+        <data android:scheme="smsto" />
+      </intent>
+      <!-- If your app sends emails -->
+      <intent>
+        <action android:name="android.intent.action.SEND" />
+        <data android:mimeType="*/*" />
+      </intent>
+    </queries>
+
+    
 </manifest>
