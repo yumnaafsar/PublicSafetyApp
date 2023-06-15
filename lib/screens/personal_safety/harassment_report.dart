@@ -4,12 +4,13 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 import 'package:public_safety_app/widgets/camera.dart';
 
-import '../widgets/custom_bar.dart';
-import '../widgets/date_picker.dart';
-import '../widgets/desc_textfeild.dart';
-import '../widgets/time_picker.dart';
+import '../../widgets/custom_bar.dart';
+import '../../widgets/date_picker.dart';
+import '../../widgets/desc_textfeild.dart';
+import '../../widgets/time_picker.dart';
 
 class HarasmentReport extends StatefulWidget {
   const HarasmentReport({Key? key}) : super(key: key);
@@ -86,58 +87,65 @@ class _HarasmentReportState extends State<HarasmentReport> {
             children: [
               customBar(title:'Report Harassement'),
               SizedBox(
-                height: 10,
+                height: Dimensions.height10,
               ),
               Form(
                   key: _formKey,
                   child: Column(
                     children: [
 
-                      SizedBox(height: 10,),
+                      // SizedBox(height: Dimensions.height10,),
                       textFeild('City', 'Please Enter City', cityController),
-                      SizedBox(height: 5,),
+                      SizedBox(height: Dimensions.height5,),
                       textFeild('Location', 'Please Enter Location', locationController),
-                      SizedBox( height: 10,),
+                      SizedBox( height: Dimensions.height10,),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           DatePicker(controller: dateController),
                           TimePicker(controller: timeController),
                         ],
                       ),
-                      SizedBox(height: 10,),
-                      BigTextFeild(controller:descController),
+                      SizedBox(height: Dimensions.height10,),
+                      Padding(
+                        padding: const EdgeInsets.only(left:8, right: 8),
+                        child: BigTextFeild(controller:descController),
+                      ),
 
-                      SizedBox(height: 10,),
+                      SizedBox(height: Dimensions.height5,),
 
                      CameraService(
                      imgDir: 'harasmentImages',
                 onImageUrlReceived: handleImageUrl,
               ),
 
-                      SizedBox(height: 25,),
+                      SizedBox(height:Dimensions.height15,),
 
                       GestureDetector(
                         onTap: (){
                           submitForm();
                         },
-                        child: Container(
-                          height: 50,
-                          width: 250,
-                          decoration: BoxDecoration(
-                             color: Colors.black,
-                              borderRadius: BorderRadius.circular(35.0),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromARGB(255, 103, 138, 106),
-                                    blurRadius: 5.0,
-                                    offset: Offset(0, 5)),
-                                BoxShadow(
-                                    color: Color.fromARGB(255, 69, 158, 76),
-                                    blurRadius: 5.0,
-                                    offset: Offset(-5, 5))
-                              ],
-                            ),
-                          child: Center(child: Text('Submit',style: TextStyle(color: Colors.white, fontSize:25, fontWeight: FontWeight.bold ),)),
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: Dimensions.height15),
+                          child: Container(
+                            height: Dimensions.height50,
+                            width: Dimensions.width250,
+                            decoration: BoxDecoration(
+                               color: Colors.black,
+                                borderRadius: BorderRadius.circular(Dimensions.radius35),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromARGB(255, 103, 138, 106),
+                                      blurRadius: 5.0,
+                                      offset: Offset(0, 5)),
+                                  BoxShadow(
+                                      color: Color.fromARGB(255, 69, 158, 76),
+                                      blurRadius: 5.0,
+                                      offset: Offset(-5, 5))
+                                ],
+                              ),
+                            child: Center(child: Text('Submit',style: TextStyle(color: Colors.white, fontSize:Dimensions.font25, fontWeight: FontWeight.bold ),)),
+                          ),
                         ),
                       )
                       
@@ -158,22 +166,22 @@ Widget textFeild(String _labelText, String _hintText, _controller,) {
       Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: Dimensions.width20),
             child: Text(
               _labelText,
               style: TextStyle(
                   color:  Color.fromARGB(255, 14, 114, 22),
-                  fontSize: 20,
+                  fontSize: Dimensions.font20,
                   fontWeight: FontWeight.bold),
             ),
           ),
         ],
       ),
       Container(
-        margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 5),
+        margin: EdgeInsets.only(left: Dimensions.width15, right: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height5),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 14, 114, 22),
@@ -194,13 +202,13 @@ Widget textFeild(String _labelText, String _hintText, _controller,) {
                     }
                     return null;
                   },
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: Dimensions.font20),
           decoration: InputDecoration(
             hintText: _hintText,
             hintStyle: TextStyle(
-                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: 17),
+                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: Dimensions.font17),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding: EdgeInsets.symmetric(horizontal:  Dimensions.width16),
           ),
         ),
       ),

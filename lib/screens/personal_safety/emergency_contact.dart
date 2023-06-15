@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 import 'package:public_safety_app/widgets/custom_bar.dart';
 import 'package:shake/shake.dart';
 
-import '../widgets/app_bar.dart';
+import '../../widgets/app_bar.dart';
 
 import 'live_loc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -223,92 +224,60 @@ class _EmergencyContactState extends State<EmergencyContact> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               customBar(title: 'Emergency Contacts'),
-              SizedBox(height: 15,),
-              Text(
-                'Add Emergency Contacts',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: Dimensions.height15,),
+              Center(
+                child: Text(
+                  'Add Emergency Contacts',
+                  style: TextStyle(
+                    fontSize: Dimensions.font20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: Dimensions.height15),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     textFeild('Contact 1', '+92XXXXXXXXXX', contact1Controller),
-                    // TextFormField(
-                    //   controller: contact1Controller,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Contact 1',
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter a contact number';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-                    SizedBox(height: 16),
+                   
+                    SizedBox(height: Dimensions.height15),
                     textFeild('Contact 2', '+92XXXXXXXXXX', contact2Controller),
-                    // TextFormField(
-                    //   controller: contact2Controller,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Contact 2',
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter a contact number';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-                    SizedBox(height: 16),
+                    
+                    SizedBox(height: Dimensions.height15),
                     textFeild('Contact 3', '+92XXXXXXXXXX', contact3Controller),
-                    // TextFormField(
-                    //   controller: contact3Controller,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Contact 3',
-                    //     border: OutlineInputBorder(),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter a contact number';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-                    // SizedBox(height: 16),
-                    // ElevatedButton(
-                    //   onPressed: submitForm,
-                    //   child: Text('Save Contacts'),
-                    // ),
-
+                   
                     Button('Save', submitForm)
 
                    
                   ],
                 ),
               ),
-              SizedBox(height: 32),
-              Text(
-                'Send Emergency Message',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: Dimensions.height30),
+               SizedBox(child: Divider(height: 5,color:Colors.black,),),
+               SizedBox(height: 10,),
+              Center(
+                child: Text(
+                  'Send Emergency Message',
+                  style: TextStyle(
+                    fontSize: Dimensions.font25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(height: 16),
-              // ElevatedButton(
-              //   onPressed: getAndSendSMS,
-              //   child: Text('Send SOS Message'),
-              // ),
+              SizedBox(height: Dimensions.height15),
+             
+              Center(child: Button('Send SOS Message', getAndSendSMS)),
 
-              Button('Send SOS Message', getAndSendSMS),
+              SizedBox(height: Dimensions.height20,),
 
-                      SizedBox(height: 20,)
+              Container(
+                child: Column(
+                  children: [
+                    
+                  ],
+                ),
+              )
 
                
             ],
@@ -326,22 +295,22 @@ Widget textFeild(String _labelText, String _hintText, _controller) {
       Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: Dimensions.width20),
             child: Text(
               _labelText,
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: Dimensions.font20,
                   fontWeight: FontWeight.bold),
             ),
           ),
         ],
       ),
       Container(
-        margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 5),
+        margin: EdgeInsets.only(left: Dimensions.width15, right: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height5),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 14, 114, 22),
@@ -364,9 +333,9 @@ Widget textFeild(String _labelText, String _hintText, _controller) {
           decoration: InputDecoration(
             hintText: _hintText,
             hintStyle: TextStyle(
-                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: 15),
+                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: Dimensions.font15),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.width16),
           ),
         ),
       ),
@@ -378,8 +347,8 @@ Widget Button(String text,VoidCallback function){
   return GestureDetector(
                         onTap: function,
                         child: Container(
-                          height: 50,
-                          width: 250,
+                          height: Dimensions.height50,
+                          width: Dimensions.width250,
                           decoration: BoxDecoration(
                              color: Colors.black,
                               borderRadius: BorderRadius.circular(35.0),
@@ -394,7 +363,7 @@ Widget Button(String text,VoidCallback function){
                                     offset: Offset(-5, 5))
                               ],
                             ),
-                          child: Center(child: Text(text,style: TextStyle(color: Colors.white, fontSize:25, fontWeight: FontWeight.bold ),)),
+                          child: Center(child: Text(text,style: TextStyle(color: Colors.white, fontSize:Dimensions.font15, fontWeight: FontWeight.bold ),)),
                         ),
                       );
 }

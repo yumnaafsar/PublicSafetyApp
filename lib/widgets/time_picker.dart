@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 
 class TimePicker extends StatefulWidget {
 
@@ -29,19 +30,19 @@ class _TimePickerState extends State<TimePicker> {
     return Align(
         alignment: Alignment.centerLeft,
         child: Container(
-            width: 190,
+            width: Dimensions.width170,
             // decoration: BoxDecoration(color: Colors.blueAccent),
             child: Column(children: [
               // Label Text
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding:EdgeInsets.only(left: Dimensions.width20,),
                     child: Text(
                       'Time',
                       style: TextStyle(
                           color: Color.fromARGB(255, 14, 114, 22),
-                          fontSize: 20,
+                          fontSize: Dimensions.font20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -50,10 +51,10 @@ class _TimePickerState extends State<TimePicker> {
 
               // Text Field
               Container(
-                  margin: EdgeInsets.only(left: 15, bottom: 15, top: 5),
+                  margin: EdgeInsets.only(left: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height5, right: Dimensions.width10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(35.0),
+                    borderRadius: BorderRadius.circular(Dimensions.radius35),
                     boxShadow: [
                       BoxShadow(
                           color: Color.fromARGB(255, 14, 114, 22),
@@ -66,18 +67,18 @@ class _TimePickerState extends State<TimePicker> {
                     ],
                   ),
                   child: Padding(
-                      padding: const EdgeInsets.only(left: 4),
+                      padding: EdgeInsets.only(left: Dimensions.width5),
                       child: TextFormField(
                         controller: timeInput,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.access_time,
-                            color: Color.fromARGB(255, 14, 114, 22),
+                            color: Color.fromARGB(255, 14, 114, 22),size: Dimensions.icon30,
                           ),
                           hintText: 'hh:mm',
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 61, 180, 71),
-                              fontSize: 20,
+                              fontSize: Dimensions.font15,
                               fontWeight: FontWeight.w500),
                           border: InputBorder.none,
                         ),

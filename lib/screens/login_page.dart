@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:public_safety_app/screens/personal_safety.dart';
 import 'package:public_safety_app/screens/register.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 
 import '../widgets/custom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
       final data= snapshot.data();
       // Navigator.push(context, MaterialPageRoute(builder: (context) => personalSaftey()));
-      Navigator.of(context).pushNamed('/personalSafety',arguments: data);
+      Navigator.of(context).pushNamed('/frontPage',arguments: data);
 
       } catch (e) {
         print("error");
@@ -70,12 +71,12 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // customBar(),
-              Text('Login', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50, color: Colors.white),),
-              SizedBox(height: 50,),
+              Text('Login', style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimensions.font50, color: Colors.white),),
+              SizedBox(height: Dimensions.height50,),
               textFeild('Email', 'Enter email', emailController,'Email can not be empty'),
               textFeild('Password', 'Enter password atleast 6 digits',passwordController, 'Paswword can not be empty'),
 
-              SizedBox(height: 30,),
+              SizedBox(height:Dimensions.height30,),
 
 
             GestureDetector(
@@ -86,11 +87,11 @@ class _LoginPageState extends State<LoginPage> {
               // }
               ,
                 child: Container(
-                          height: 50,
-                          width: 250,
+                          height: Dimensions.height50,
+                          width: Dimensions.width250,
                           decoration: BoxDecoration(
                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(35.0),
+                              borderRadius: BorderRadius.circular(Dimensions.radius35),
                               boxShadow: [
                                 BoxShadow(
                                     color: Color.fromARGB(255, 103, 138, 106),
@@ -102,21 +103,21 @@ class _LoginPageState extends State<LoginPage> {
                                     offset: Offset(-5, 5))
                               ],
                             ),
-                          child: Center(child: Text('Login',style: TextStyle(color: Colors.white, fontSize:25, fontWeight: FontWeight.bold ),)),
+                          child: Center(child: Text('Login',style: TextStyle(color: Colors.white, fontSize:Dimensions.font25, fontWeight: FontWeight.bold ),)),
                         ),
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: Dimensions.height10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?", style: TextStyle(color: Colors.white,fontSize: 15, fontWeight: FontWeight.w800),),
-                  SizedBox(width: 20,),
+                  Text("Don't have an account?", style: TextStyle(color: Colors.white,fontSize: Dimensions.font15, fontWeight: FontWeight.w800),),
+                  SizedBox(width: Dimensions.width20,),
                   GestureDetector(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
                     },
-                    child: Text('SignUp',style: TextStyle(color: Colors.white,fontSize: 15, fontWeight: FontWeight.w800),)),
+                    child: Text('SignUp',style: TextStyle(color: Colors.white,fontSize: Dimensions.font15, fontWeight: FontWeight.w800),)),
                 ],
               ),
               
@@ -136,22 +137,22 @@ Widget textFeild(String _labelText, String _hintText, _controller, String messag
       Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left:Dimensions.width20),
             child: Text(
               _labelText,
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: Dimensions.font20,
                   fontWeight: FontWeight.bold),
             ),
           ),
         ],
       ),
       Container(
-        margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 5),
+        margin: EdgeInsets.only(left: Dimensions.width15, right: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height15),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 17, 131, 26),
@@ -165,10 +166,10 @@ Widget textFeild(String _labelText, String _hintText, _controller, String messag
         ),
         child: TextFormField(
           controller: _controller,
-          style: TextStyle(fontSize: 20, color: Colors.black),
+          style: TextStyle(fontSize: Dimensions.font20, color: Colors.black),
           decoration: InputDecoration(
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.width16),
           ),
           validator: (value){
                             if (value! .isEmpty){

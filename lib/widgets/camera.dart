@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 
 class CameraService extends StatefulWidget {
   final void Function(String imageUrl) onImageUrlReceived;
@@ -79,12 +80,12 @@ Future<void> _UploadImage() async {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 5),
-          height: 60,
-          width: 175,
+          margin: EdgeInsets.only(left: Dimensions.width5),
+          height: Dimensions.height60,
+          width: Dimensions.width180,
           decoration: BoxDecoration(
           // color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 14, 114, 22),
@@ -100,16 +101,16 @@ Future<void> _UploadImage() async {
           onPressed: _captureImage,
           child: Row(
             children: [
-              Text('capture img', style: TextStyle(fontSize: 21),),
-              SizedBox(width: 5,),
-              Icon(Icons.camera_alt),
+              Text('capture img', style: TextStyle(fontSize: Dimensions.font15),),
+              SizedBox(width: Dimensions.width5,),
+              Icon(Icons.camera_alt, size: Dimensions.icon30,),
             ],
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromARGB(255, 14, 114, 22),
             elevation: 20,
             shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(35), 
+                    borderRadius: BorderRadius.circular(Dimensions.radius35), 
                   ), 
             shadowColor: Colors.black
             
@@ -117,14 +118,14 @@ Future<void> _UploadImage() async {
           ),
         ),
 
-        SizedBox(height: 10,),
+        SizedBox(height: Dimensions.height10,),
 
         Container(
-          height: 60,
-          width: 170,
+          height: Dimensions.height60,
+          width: Dimensions.width170,
           decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 14, 114, 22),
@@ -140,16 +141,16 @@ Future<void> _UploadImage() async {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('upload',style: TextStyle(fontSize: 21),),
-              SizedBox(width: 5,),
-              Icon(Icons.file_copy_outlined, size: 25,),
+              Text('upload',style: TextStyle(fontSize: Dimensions.font15),),
+              SizedBox(width: Dimensions.width20,),
+              Icon(Icons.file_copy_outlined, size: Dimensions.icon30,),
             ],
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromARGB(255, 14, 114, 22),
             elevation: 20,
             shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(35), 
+                    borderRadius: BorderRadius.circular(Dimensions.radius35), 
                   ), 
             shadowColor: Colors.black
             

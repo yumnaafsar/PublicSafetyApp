@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 
 class DatePicker extends StatefulWidget {
 
@@ -31,7 +32,7 @@ class _DatePickerState extends State<DatePicker> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        width: 190,
+        width: Dimensions.width180,
         // decoration: BoxDecoration(color: Colors.blueAccent),
         child: Column(
           children: [
@@ -40,12 +41,12 @@ class _DatePickerState extends State<DatePicker> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: Dimensions.width20),
                   child: Text(
                     'Date',
                     style: TextStyle(
                         color: Color.fromARGB(255, 14, 114, 22),
-                        fontSize: 20,
+                        fontSize: Dimensions.font20,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -54,11 +55,11 @@ class _DatePickerState extends State<DatePicker> {
 
             // Text Feild
             Container(
-              margin: EdgeInsets.only(left: 15, bottom: 15, top: 5),
+              margin: EdgeInsets.only(left: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height5),
 
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(35.0),
+                borderRadius: BorderRadius.circular(Dimensions.radius35),
                 boxShadow: [
                   BoxShadow(
                       color: Color.fromARGB(255, 14, 114, 22),
@@ -72,7 +73,7 @@ class _DatePickerState extends State<DatePicker> {
               ),
 
               child: Padding(
-                padding: const EdgeInsets.only(left: 4),
+                padding:EdgeInsets.only(left: Dimensions.width5,),
                 child: TextFormField(
 
                   controller: dateInput,
@@ -80,12 +81,12 @@ class _DatePickerState extends State<DatePicker> {
                   decoration: InputDecoration(
                     icon: Icon(
                       Icons.calendar_today,
-                      color: Color.fromARGB(255, 14, 114, 22),
+                      color: Color.fromARGB(255, 14, 114, 22), size: Dimensions.icon30,
                     ),
                     hintText: 'dd-mm-yyyy',
                     hintStyle: TextStyle(
                         color: Color.fromARGB(255, 61, 180, 71),
-                        fontSize: 20,
+                        fontSize: Dimensions.font15,
                         fontWeight: FontWeight.w500),
                     border: InputBorder.none,
                   ),

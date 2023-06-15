@@ -7,8 +7,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:public_safety_app/screens/personal_safety/near_me.dart';
+import 'package:public_safety_app/utils/dimension.dart';
 import 'package:shake/shake.dart';
-import '../widgets/app_bar.dart';
+import '../../widgets/app_bar.dart';
 
 import 'emergency_contact.dart';
 import 'harassment_report.dart';
@@ -31,12 +33,14 @@ class personalSaftey extends StatefulWidget {
 class _personalSafteyState extends State<personalSaftey> {
   dynamic data;
   late User? currentUser;
+
+
   Future<dynamic> getData() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection("EmergencyContacts")
+          .collection("UserInformation")
           .doc(currentUser!.uid)
           .get();
 
@@ -178,7 +182,18 @@ class _personalSafteyState extends State<personalSaftey> {
 
 
 void initState() {
+  
     super.initState();
+
+     ShakeDetector.autoStart(
+            shakeThresholdGravity: 7,
+            shakeSlopTimeMS: 500,
+            shakeCountResetTime: 3000,
+            minimumShakeCount: 1,
+            onPhoneShake: () async {
+             getData();
+            });
+
   } 
 
   
@@ -194,7 +209,15 @@ void initState() {
             children: [
               customizedAppBar(),
         
-              SizedBox(height: 60,),
+               SizedBox(height: Dimensions.height30,),
+
+              Text('Personal Safety', style: TextStyle(
+                  color:  Color.fromARGB(255, 14, 114, 22),
+                  fontSize: Dimensions.font45,
+                  fontWeight: FontWeight.bold),),
+
+               SizedBox(height: Dimensions.height30,),
+
         
               Center(
                 child: Column(
@@ -207,41 +230,42 @@ void initState() {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => EmergencyContact()))
                           },
                           child: optionContainer('Emergency contacts')),
-                         GestureDetector(
-                          onTap: ()=>{
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LiveLocation()))
+
+                          GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => NearMe()));
                           },
-                          child: optionContainer('Live Location'))
+                          child: optionContainer('Near Me')),
+                        
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: Dimensions.height20,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [ 
-                        optionContainer('Wrong Numbers'),
+                        
                         GestureDetector(
                           onTap: ()=>{
                            
                             Navigator.push(context, MaterialPageRoute(builder: (context) => HarasmentReport()))
                           },
-                          child: optionContainer('Report Harasment'))
+                          child: optionContainer('Report Harasment')),
+
+                          //  GestureDetector(
+                          // onTap: ()=>{
+                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => LiveLocation()))
+                          // },
+                          // child: optionContainer('Live Location'))
                       ],
                     )
                   ],
                 ),
               ),
         
-              SizedBox(height: 40,),
+              SizedBox(height: Dimensions.height50,),
         
               button(),
-              GestureDetector(
-                onTap: (){
-                  FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushReplacementNamed('/login');
-                },
-                child: 
-                Text('Logout',)
-                )
+              
         
             ],
           ),
@@ -253,10 +277,10 @@ void initState() {
 
   Widget optionContainer(String text){
     return  Container(
-                        height: 150,
-                        width: 150,
+                        height: Dimensions.height150,
+                        width: Dimensions.width170,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(Dimensions.radius15),
                           boxShadow: [
                             BoxShadow(
                               color: Color.fromARGB(255, 14, 114, 22),
@@ -273,14 +297,14 @@ void initState() {
                           color: Colors.black,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(15),
+                          padding: EdgeInsets.all(Dimensions.height15),
                           child: Center(
                             child: Animate(
                               effects: [
                          FadeEffect(),
                          SlideEffect()
                         ],
-                              child: Text(text, style: TextStyle(color: Colors.white, fontSize: 24),))
+                              child: Text(text, style: TextStyle(color: Colors.white, fontSize: Dimensions.font20),)) //font 24
                           ),
                         ),
                       );
@@ -299,8 +323,8 @@ Widget button(){
       },
 
       child: Container(
-        height: 50,
-        width: 150,
+        height: Dimensions.height50,
+        width: Dimensions.width150,
         decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.circular(15),
            color: Colors.red,
@@ -323,10 +347,21 @@ Widget button(){
           child: Text('Panic', 
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30,
+            fontSize: Dimensions.font30,
             fontWeight: FontWeight.bold) ,),
         ),
       ),
     ),
   );
 }
+
+/*
+GestureDetector(
+                onTap: (){
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                child: 
+                Text('Logout',)
+                )
+*/

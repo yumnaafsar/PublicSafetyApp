@@ -1,9 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:public_safety_app/screens/personal_safety.dart';
-import 'package:public_safety_app/widgets/camera.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
+import 'package:public_safety_app/screens/login_page.dart';
+import 'package:public_safety_app/screens/personal_safety/personal_safety.dart';
+import 'package:public_safety_app/utils/dimension.dart';
+import 'package:public_safety_app/widgets/camera.dart';
 import '../widgets/custom_bar.dart';
 import '../widgets/date_picker.dart';
 
@@ -23,6 +28,9 @@ class _InformationDetailState extends State<InformationDetail> {
    TextEditingController cityController=TextEditingController();
    TextEditingController districtController=TextEditingController();
 
+   late User? currentUser;
+   
+
    void submitForm(){
     if (_formKey.currentState!.validate()) {
       
@@ -33,7 +41,7 @@ class _InformationDetailState extends State<InformationDetail> {
       final city=cityController.text;
       final district=districtController.text;
 
-      FirebaseFirestore.instance.collection('UserInformation').add({
+      FirebaseFirestore.instance.collection('UserInformation').doc(currentUser!.uid).set({
         "name":name,
         "email":email,
         "cnic":cnic,
@@ -50,7 +58,7 @@ class _InformationDetailState extends State<InformationDetail> {
         cityController.clear(),
         districtController.clear(),
 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => personalSaftey()))
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginPage()))
         
       }).catchError((e){
           print('Error storing data $e');
@@ -60,13 +68,21 @@ class _InformationDetailState extends State<InformationDetail> {
     }
    }
 
-
-   String? imageUrl; // Added imageUrl variable
-
   void handleImageUrl(String url) {
     setState(() {
       imageUrl = url;
     });
+  }
+ String? imageUrl; // Added imageUrl variable
+  
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      // getData();
+    }
   }
 
   @override
@@ -77,7 +93,7 @@ class _InformationDetailState extends State<InformationDetail> {
         child: Column(
           children: [
             customBar(title: 'Personal Information',),
-            SizedBox(height: 10,),
+            SizedBox(height: Dimensions.height10,),
             Form(
               key:_formKey,
               child: Column(
@@ -89,31 +105,31 @@ class _InformationDetailState extends State<InformationDetail> {
                 textFeild('City', 'Enter city where you live' , cityController),
                 textFeild('District', 'Enter your district', districtController),
       
-                SizedBox(height: 15,),
+                SizedBox(height: Dimensions.height15,),
                 Text('Please provide your photo ',
                   textAlign: TextAlign.start,
                   style:TextStyle(
                       color:  Color.fromARGB(255, 14, 114, 22),
-                      fontSize: 20,
+                      fontSize: Dimensions.font20,
                       fontWeight: FontWeight.bold,
                       ),
                             ),
-                SizedBox(height: 10,),
+                SizedBox(height: Dimensions.height10,),
                 CameraService(
                   imgDir:'UserImages',
                   onImageUrlReceived: handleImageUrl),
       
-                SizedBox(height: 25,),
+                SizedBox(height: Dimensions.height25,),
                 GestureDetector(
                           onTap: (){
                             submitForm();
                           },
                           child: Container(
-                            height: 50,
-                            width: 250,
+                            height: Dimensions.height50,
+                            width: Dimensions.width250,
                             decoration: BoxDecoration(
                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(35.0),
+                                borderRadius: BorderRadius.circular(Dimensions.radius35),
                                 boxShadow: [
                                   BoxShadow(
                                       color: Color.fromARGB(255, 103, 138, 106),
@@ -125,7 +141,7 @@ class _InformationDetailState extends State<InformationDetail> {
                                       offset: Offset(-5, 5))
                                 ],
                               ),
-                            child: Center(child: Text('Submit',style: TextStyle(color: Colors.white, fontSize:25, fontWeight: FontWeight.bold ),)),
+                            child: Center(child: Text('Submit',style: TextStyle(color: Colors.white, fontSize:Dimensions.font25, fontWeight: FontWeight.bold ),)),
                           ),
                         )
               ],
@@ -143,22 +159,22 @@ Widget textFeild(String _labelText, String _hintText, _controller,) {
       Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: Dimensions.width20),
             child: Text(
               _labelText,
               style: TextStyle(
                   color:  Color.fromARGB(255, 14, 114, 22),
-                  fontSize: 20,
+                  fontSize: Dimensions.font20,
                   fontWeight: FontWeight.bold),
             ),
           ),
         ],
       ),
       Container(
-        margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 5),
+        margin: EdgeInsets.only(left: Dimensions.width15, right: Dimensions.width15, bottom: Dimensions.height15, top: Dimensions.height5),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(35.0),
+          borderRadius: BorderRadius.circular(Dimensions.radius35),
           boxShadow: [
             BoxShadow(
                 color: Color.fromARGB(255, 14, 114, 22),
@@ -179,13 +195,13 @@ Widget textFeild(String _labelText, String _hintText, _controller,) {
                     }
                     return null;
                   },
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: Dimensions.font20),
           decoration: InputDecoration(
             hintText: _hintText,
             hintStyle: TextStyle(
-                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: 17),
+                fontWeight: FontWeight.w500, color:Color.fromARGB(255, 61, 180, 71), fontSize: Dimensions.font15),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.width16),
           ),
         ),
       ),

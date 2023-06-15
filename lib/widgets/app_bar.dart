@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:public_safety_app/utils/dimension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class customizedAppBar extends StatefulWidget {
   const customizedAppBar({
@@ -14,25 +17,63 @@ class customizedAppBar extends StatefulWidget {
 
 class _customizedAppBarState extends State<customizedAppBar> {
 
+  dynamic data;
+  late User? currentUser;
+  String name='';
+  String city='';
+  String image='';
+  
+
+Future<void> getData() async {
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  if (currentUser != null) {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("UserInformation")
+        .doc(currentUser.uid)
+        .get();
+
+    if (snapshot.exists) {
+      setState(() {
+      name = snapshot.get('name') as String? ?? '';
+      city = snapshot.get('city') as String? ?? '';
+      image = snapshot.get('imageUrl') as String? ?? '';
+      });
+    }
+  }
+}
+
+
+ @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      getData();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
 
         painter: AppbarPainter(),
-        size: const Size(400, 210),
+        size: Size(Dimensions.width400, Dimensions.height210),
         child: _appBarContent(),
       );
   }
 
   Widget _appBarContent(){
   return Container(
-    height: 190,
-    width: 400,
-    margin: EdgeInsets.symmetric(vertical: 40),
+    height: Dimensions.height210,
+    width: Dimensions.width450,
+    // margin: EdgeInsets.symmetric(vertical: Dimensions.width40),
+    margin: EdgeInsets.only(bottom: Dimensions.height20, top: Dimensions.height20),
     child: Column(
       children: [
         _header(),
-        SizedBox(height: 20,),
+        SizedBox(height: Dimensions.height10,),
         _userInfo(),
         // SizedBox(height: 10,),
         _menuOptions()
@@ -43,7 +84,7 @@ class _customizedAppBarState extends State<customizedAppBar> {
 
  Widget _header(){
   return Padding(
-    padding: const EdgeInsets.only(left: 5, right: 5),
+    padding: EdgeInsets.only(left: Dimensions.width5, right: Dimensions.width5, top: 0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -51,7 +92,7 @@ class _customizedAppBarState extends State<customizedAppBar> {
           onTap: (){
             Navigator.of(context).pop();
           },
-          child: Icon(Icons.arrow_back_rounded, color: Colors.white, size: 30,)),
+          child: Icon(Icons.arrow_back_rounded, color: Colors.white, size: Dimensions.icon30,)),
         Icon(Icons.menu, color: Colors.white, size: 30,)
       ],
     ),
@@ -59,34 +100,37 @@ class _customizedAppBarState extends State<customizedAppBar> {
  }
 
  Widget _userInfo(){
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      _userAvatar(),
-      SizedBox(width: 20,),
-      Expanded(
-        flex: 1,
-        child:Column(
-          children: [
-            _userPersonalInfo(),
-            SizedBox(height: 25,),
-          ],
-        )
-        ),
-    ],
+  return Padding(
+    padding: EdgeInsets.only(left:Dimensions.height10),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _userAvatar(),
+        SizedBox(width: Dimensions.width20,),
+        Expanded(
+          flex: 1,
+          child:Column(
+            children: [
+              _userPersonalInfo(),
+              SizedBox(height: Dimensions.height25,),
+            ],
+          )
+          ),
+      ],
+    ),
   );
  }
 
  Widget _userAvatar(){
   return CircleAvatar(
-    radius: 35,
-    backgroundImage: AssetImage('assets/images/avatar.jpg'),
+    radius: Dimensions.radius35,
+    backgroundImage: NetworkImage(image != null ? image : ''),
   );
  }
 
  Widget _userPersonalInfo() {
     return Padding(
-      padding: const EdgeInsets.only(right: 5),
+      padding: EdgeInsets.only(right: Dimensions.width5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -96,55 +140,49 @@ class _customizedAppBarState extends State<customizedAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    'Yumna',
+                   name != null ? name : '',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 28,
+                      fontSize: Dimensions.font28,
                       color: Colors.white
                     ),
                   ),
-                  const SizedBox(height: 10, ),
+                  SizedBox(height: Dimensions.height10, ),
                     Row(
-                      children: const [
+                      children:[
                         Icon(
                           Icons.location_on_outlined,
                           color: Colors.white,
-                          size: 15,
+                          size: Dimensions.icon15,
                         ),
-                        SizedBox(width: 5, ),
-                        Text(
-                          'Karachi Pakistan',
-                          style: TextStyle(
-                            fontSize: 13,
-                            letterSpacing: 2,
-                            color: Colors.white
-                          ),
+                        SizedBox(width: Dimensions.width5, ),
+                        Row(
+                          children: [
+                            Text(
+                              city != null ? city : '',
+                              style: TextStyle(
+                                fontSize: Dimensions.font15, //13
+                                letterSpacing: 2,
+                                color: Colors.white
+                              ),
+                            ),
+                            SizedBox(width: 2,),
+                            Text(
+                              ', Pakistan',
+                              style: TextStyle(
+                                fontSize: Dimensions.font15, //13
+                                letterSpacing: 2,
+                                color: Colors.white
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     )
               ],
             ),
           ),
-          // Expanded(
-          //   flex: 1,
-          //   child: Container(
-          //     height: 30,
-          //     child: const Center(
-          //         child: Text(
-          //           'Location',
-          //           style: TextStyle(
-          //             color: Color.fromARGB(255, 14, 114, 22),
-          //             fontWeight: FontWeight.w500,
-          //             fontSize: 16
-          //           ),
-          //         ),
-          //       ),
-          //       decoration: BoxDecoration(
-          //         color: Colors.white,
-          //         borderRadius: BorderRadius.circular(10),
-          //       ),
-          //   ),
-          // )
+         
         ],
       ),
     );
@@ -172,23 +210,24 @@ Widget _menuOptions(){
 
 Widget _menuButton(String text){
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.all(0), //8
     child: Container(
-                height: 25,
+                height: Dimensions.height30,
+                width: Dimensions.width130,
                 child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: EdgeInsets.only(top:Dimensions.height5, bottom: Dimensions.height5),//4
                       child: Text(text, style: TextStyle(
                           color: Color.fromARGB(255, 14, 114, 22),
                           fontWeight: FontWeight.w500,
-                          fontSize: 16
+                          fontSize: Dimensions.font9,
                         ),
                       ),
                     ),
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(Dimensions.radius30),
                   ),
               ),
   );
@@ -213,7 +252,7 @@ class AppbarPainter extends CustomPainter{
        ).createShader(rect);
 
     path.lineTo(0, size.height- size.height/8);
-    path.conicTo(size.width/1.2,size.height, size.width, size.height- size.height/8, 25);
+    path.conicTo(size.width/1.2,size.height, size.width, size.height- size.height/8, Dimensions.height25);
     path.lineTo(size.width, 0);
     canvas.drawShadow(path, Colors.black, 6, false);
 
