@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:public_safety_app/screens/crime_alert/Videosfiles/lastVideoTry.dart';
 import 'package:public_safety_app/screens/health_safety/disease.dart';
@@ -31,6 +32,11 @@ class HealthSaftey extends StatefulWidget {
 }
 
 class _HealthSafteyState extends State<HealthSaftey> {
+  
+  directcall()async{
+    await FlutterPhoneDirectCaller.callNumber("03340317184");
+  }
+ 
   dynamic data;
   late User? currentUser;
 
@@ -51,6 +57,27 @@ class _HealthSafteyState extends State<HealthSaftey> {
       }
     }
   }
+
+    void initState(){
+    getData();
+  super.initState();
+  ShakeDetector.autoStart(
+      onPhoneShake: () async {
+         await directcall();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Called to medical dept'),
+          ),
+        );
+        // Do stuff on phone shake
+      },
+      minimumShakeCount: 1,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 2.7,
+    );
+  
+}
 
  
       

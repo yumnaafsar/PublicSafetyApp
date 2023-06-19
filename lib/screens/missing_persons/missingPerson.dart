@@ -50,21 +50,21 @@ class _MissingPersonState extends State<MissingPerson> {
   void initState(){
     getData();
   super.initState();
-  ShakeDetector.autoStart(
-      onPhoneShake: () async {
-         await directcall();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Called to medical dept'),
-          ),
-        );
-        // Do stuff on phone shake
-      },
-      minimumShakeCount: 1,
-      shakeSlopTimeMS: 500,
-      shakeCountResetTime: 3000,
-      shakeThresholdGravity: 2.7,
-    );
+  // ShakeDetector.autoStart(
+  //     onPhoneShake: () async {
+  //        await directcall();
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Called to medical dept'),
+  //         ),
+  //       );
+  //       // Do stuff on phone shake
+  //     },
+  //     minimumShakeCount: 1,
+  //     shakeSlopTimeMS: 500,
+  //     shakeCountResetTime: 3000,
+  //     shakeThresholdGravity: 2.7,
+  //   );
   
 }
     @override
