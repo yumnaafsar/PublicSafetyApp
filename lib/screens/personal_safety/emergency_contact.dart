@@ -210,6 +210,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
     super.initState();
     currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
+      getAndSendSMS();
       // getData();
     }
   }

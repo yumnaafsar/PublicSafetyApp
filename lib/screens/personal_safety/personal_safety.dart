@@ -191,7 +191,8 @@ void initState() {
             shakeCountResetTime: 3000,
             minimumShakeCount: 1,
             onPhoneShake: () async {
-             getData();
+            //  getData();
+            getAndSendSMS();
             });
 
   } 

@@ -84,16 +84,16 @@ void onStart(ServiceInstance service) async {
     {
       if (await service.isForegroundService())
        {
-        // await Geolocator.getCurrentPosition(
-        //         desiredAccuracy: LocationAccuracy.high,
-        //         forceAndroidLocationManager: true)
-        //     .then((Position position) 
-        //     {
-        //   _curentPosition = position;
-        //   print("bg location ${position.latitude}");
-        // }).catchError((e) {
-        //   Fluttertoast.showToast(msg: e.toString());
-        // });
+        await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.high,
+                forceAndroidLocationManager: true)
+            .then((Position position) 
+            {
+          _curentPosition = position;
+          print("bg location ${position.latitude}");
+        }).catchError((e) {
+          Fluttertoast.showToast(msg: e.toString());
+        });
 
         ShakeDetector.autoStart(
             shakeThresholdGravity: 7,

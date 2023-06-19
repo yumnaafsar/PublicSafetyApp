@@ -18,18 +18,13 @@ import 'package:public_safety_app/screens/splashscreen.dart';
 import 'package:public_safety_app/utils/flutter_background_Services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-
-
-
-
-
 // import 'widgets/camera.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp();
-   await initializeService();
+  //  await initializeService();
   runApp(const MyApp());
 }
 
