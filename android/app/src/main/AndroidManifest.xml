@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-<meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAQ234HYQ8YTFVlbszUq6zySwRpFO1vtTU" />
+<meta-data android:name="Add Your Key" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

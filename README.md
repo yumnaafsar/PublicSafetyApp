@@ -14,3 +14,10 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+One can initiate this app by logging himself, and if he is not registered then he has to firstly register himself by providing required crederntials. 
+After successful login, the user has five main options to choose from according to his own problem. 
+1. Personal Safety: This module facilitates the user to report any harrassment incident, share his live location with 3 registered personal contacts. The location of the closest hospitals, police station, bus stops etc in the vicinity are also visible to him. Other than this, he can also generate alaram by pressing a PANIC button at the bottom of the page.
+2. Missing Person Alert: The user can report the details of any missing person.The facility of updating and deleting the post is also restricted only to the reporter of that particular post.A map is also provided with markers which pinpoints the location from where people have gone missing.
+3. Crime Alerts:The user can report the details of any criminal incident.Also a map  provided with markers pinpoints the location where the criminal activities occured.
+4. Health And Safety: This module provides
